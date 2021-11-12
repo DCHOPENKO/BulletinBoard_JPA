@@ -25,14 +25,14 @@ public class AuthorDAOImpl extends CrudDAO<Author> {
 
 
     @Override
-    public void deleteItemById(int id, Class<Author> aClass) {
+    public void deleteItemById(int id) {
         advertDao.deleteAllItemsByAuthorId(id);
         matchingAdDAO.deleteAllItemsByAuthorId(id);
 
         EntityManager em = ENTITY_FACTORY.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Author object = em.getReference(aClass, id);
+        Author object = em.getReference(Author.class, id);
         em.remove(object);
         transaction.commit();
         em.close();

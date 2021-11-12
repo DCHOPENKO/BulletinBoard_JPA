@@ -24,7 +24,7 @@ public class AuthorServiceImpl implements CRUDService<Author> {
     }
 
     public void deleteById(int id) {
-        dao.deleteItemById(id, Author.class);
+        dao.deleteItemById(id);
     }
 
     public Author getById(int id) {

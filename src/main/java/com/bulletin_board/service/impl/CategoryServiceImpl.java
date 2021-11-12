@@ -34,6 +34,6 @@ public class CategoryServiceImpl implements CRUDService<Category> {
     }
 
     public void deleteById(int id) {
-        dao.deleteItemById(id, Category.class);
+        dao.deleteItemById(id);
     }
 }

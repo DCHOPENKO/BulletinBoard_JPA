@@ -31,7 +31,7 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     public void deleteById(int id) {
-        dao.deleteItemById(id, Advert.class);
+        dao.deleteItemById(id);
     }
 
     public Advert getById(int id) {

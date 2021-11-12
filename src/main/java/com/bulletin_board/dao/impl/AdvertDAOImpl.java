@@ -1,18 +1,22 @@
 package com.bulletin_board.dao.impl;
 
 import com.bulletin_board.Advert;
+import com.bulletin_board.Advert_;
 import com.bulletin_board.dao.AdvertDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.bulletin_board.util.ConstantsUtil.*;
 
 public class AdvertDAOImpl extends AdvertDAO {
+
+
 
     public void deleteAllItemsByAuthorId(int id) {
         EntityManager em = ENTITY_FACTORY.createEntityManager();
@@ -82,5 +86,20 @@ public class AdvertDAOImpl extends AdvertDAO {
         transaction.commit();
         em.close();
         return adverts;
+    }
+
+    @Override
+    public void deleteItemById(int id) {
+        EntityManager em = ENTITY_FACTORY.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaDelete<Advert> criteriaDelete = builder.createCriteriaDelete(Advert.class);
+        Root<Advert> root = criteriaDelete.from(Advert.class);
+        Path<Integer> pathId = root.get(Advert_.id);
+        criteriaDelete.where(builder.equal(pathId, id));
+        em.createQuery(criteriaDelete).executeUpdate();
+        transaction.commit();
+        em.close();
     }
 }

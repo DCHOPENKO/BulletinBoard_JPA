@@ -20,7 +20,7 @@ public class test {
     public static void main(String[] args) {
 
 
- //         generateAuthors();
+//          generateAuthors();
 //          generateCategories();
 //          generateMatchingAd();
 //          generateAdverts();
@@ -28,6 +28,8 @@ public class test {
 //       AUTHOR_SERVICE.deleteById(10);
 //
 //       CATEGORY_SERVICE.deleteById(14);
+//        MATCHING_AD_SERVICE.deleteById(17);
+//        ADVERT_SERVICE.deleteById(28);
 
     }
 

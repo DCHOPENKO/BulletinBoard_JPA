@@ -28,15 +28,8 @@ public abstract class CrudDAO<T> {
         em.close();
     }
 
-    public void deleteItemById(int id, Class<T> aClass) {
-        EntityManager em = ENTITY_FACTORY.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        Query query = em.createQuery(DELETE_FROM + aClass.getSimpleName() + WHERE_BY_ID);
-        query.setParameter(PARAMETER_ID, id);
-        query.executeUpdate();
-        transaction.commit();
-        em.close();
+    public void deleteItemById(int id) {
+
     }
 
     public T getById(int id, Class<T> aClass) {

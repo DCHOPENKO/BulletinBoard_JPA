@@ -23,7 +23,7 @@ public class MatchingAdServiceImpl implements CRUDService<MatchingAd> {
     }
 
     public void deleteById(int id) {
-        dao.deleteItemById(id, MatchingAd.class);
+        dao.deleteItemById(id);
     }
 
     public MatchingAd getById(int id) {

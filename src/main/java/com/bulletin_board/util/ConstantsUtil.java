@@ -10,11 +10,9 @@ import javax.validation.ValidatorFactory;
 
 @FieldDefaults(level = AccessLevel.PUBLIC, makeFinal = true)
 public class ConstantsUtil {
+    public static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
     public static EntityManagerFactory ENTITY_FACTORY =
             Persistence.createEntityManagerFactory("bulletinBoardDB");
-    public static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
-
-    public static String DELETE_FROM = "DELETE FROM ";
     public static String FROM = "FROM ";
     public static String WHERE_BY_ID = " cl WHERE cl.id = :id";
     public static String QUERY_BATCH_DELETE_FROM_ADVERT_BY_AUTHOR_ID =
@@ -30,11 +28,11 @@ public class ConstantsUtil {
     public static String QUERY_FIND_BY_DATE = "FROM Advert a WHERE a.publicationDate = :a_date";
     public static String QUERY_FIND_BY_KEYWORD = "FROM Advert a WHERE a.title LIKE CONCAT('%', :a_word ,'%')";
     public static String QUERY_CHECK_MATCHING_AD_BY_ADVERT = " SELECT e.name FROM Author a " +
-            "JOIN a.matchingAds m " +
-            "JOIN a.email e " +
-            "WHERE m.category = :a_category AND " +
-            ":a_title LIKE CONCAT('%', m.keyWords ,'%') AND " +
-            ":a_price BETWEEN m.priceFrom AND m.priceTo";
+                                                             "JOIN a.matchingAds m " +
+                                                             "JOIN a.email e " +
+                                                             "WHERE m.category = :a_category AND " +
+                                                             ":a_title LIKE CONCAT('%', m.keyWords ,'%') AND " +
+                                                             ":a_price BETWEEN m.priceFrom AND m.priceTo";
     public static String PARAMETER_ID = "id";
     public static String PARAMETER_AUTHOR_ID = "author_id";
     public static String PARAMETER_CATEGORY_ID = "category_id";

@@ -2,7 +2,6 @@ package com.bulletin_board.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import static com.bulletin_board.util.ConstantsUtil.*;

@@ -1,4 +1,4 @@
-package com.bulletin_board;
+package com.bulletin_board.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

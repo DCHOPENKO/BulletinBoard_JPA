@@ -1,6 +1,6 @@
 package com.bulletin_board.dao;
 
-import com.bulletin_board.MatchingAd;
+import com.bulletin_board.domain.MatchingAd;
 
 public abstract class MatchingAdDAO extends CrudDAO<MatchingAd> {
 

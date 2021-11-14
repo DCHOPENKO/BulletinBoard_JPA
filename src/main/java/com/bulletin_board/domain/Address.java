@@ -1,4 +1,4 @@
-package com.bulletin_board;
+package com.bulletin_board.domain;
 
 import com.bulletin_board.enums.City;
 import com.bulletin_board.enums.Country;

@@ -1,27 +1,26 @@
 package com.bulletin_board.service.impl;
 
-import com.bulletin_board.Advert;
+import com.bulletin_board.domain.Advert;
 import com.bulletin_board.dao.AdvertDAO;
 import com.bulletin_board.service.AdvertService;
 import com.bulletin_board.service.EmailService;
 import com.bulletin_board.util.ValidatorUtil;
-import com.bulletin_board.dao.impl.AdvertDAOImpl;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@AllArgsConstructor
 public class AdvertServiceImpl implements AdvertService {
 
     EmailService eService;
     AdvertDAO dao;
-
-    public AdvertServiceImpl() {
-        eService = new EmailServiceImpl();
-        dao = new AdvertDAOImpl();
-    }
 
     public void save(Advert advert) {
         if (ValidatorUtil.validate(advert)) {

@@ -1,4 +1,4 @@
-package com.bulletin_board;
+package com.bulletin_board.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;

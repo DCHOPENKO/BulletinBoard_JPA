@@ -1,41 +1,42 @@
 package com.bulletin_board.dao.impl;
 
-import com.bulletin_board.Author;
+import com.bulletin_board.domain.Author;
 import com.bulletin_board.dao.AdvertDAO;
 import com.bulletin_board.dao.CrudDAO;
 import com.bulletin_board.dao.MatchingAdDAO;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
 import static com.bulletin_board.util.ConstantsUtil.ENTITY_FACTORY;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Repository
+@Transactional
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthorDAOImpl extends CrudDAO<Author> {
 
-    AdvertDAO advertDao;
-    MatchingAdDAO matchingAdDAO;
+    @PersistenceContext
+    EntityManager em;
 
-    public AuthorDAOImpl() {
-        advertDao = new AdvertDAOImpl();
-        matchingAdDAO = new MatchingAdDAOImpl();
+    final AdvertDAO advertDao;
+    final MatchingAdDAO matchingAdDAO;
+
+    public AuthorDAOImpl(AdvertDAO advertDao, MatchingAdDAO matchingAdDAO) {
+        this.advertDao = advertDao;
+        this.matchingAdDAO = matchingAdDAO;
     }
-
 
     @Override
     public void deleteItemById(int id, Class<Author> aClass) {
         advertDao.deleteAllItemsByAuthorId(id);
         matchingAdDAO.deleteAllItemsByAuthorId(id);
-
-        EntityManager em = ENTITY_FACTORY.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
         Author object = em.getReference(aClass, id);
         em.remove(object);
-        transaction.commit();
-        em.close();
-
     }
 }

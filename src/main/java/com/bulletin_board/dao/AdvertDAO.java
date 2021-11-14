@@ -1,6 +1,6 @@
 package com.bulletin_board.dao;
 
-import com.bulletin_board.Advert;
+import com.bulletin_board.domain.Advert;
 
 import java.time.LocalDate;
 import java.util.List;

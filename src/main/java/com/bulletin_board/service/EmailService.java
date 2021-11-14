@@ -1,6 +1,6 @@
 package com.bulletin_board.service;
 
-import com.bulletin_board.Advert;
+import com.bulletin_board.domain.Advert;
 
 public interface EmailService {
 

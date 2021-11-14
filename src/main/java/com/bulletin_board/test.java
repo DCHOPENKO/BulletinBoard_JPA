@@ -1,26 +1,39 @@
 package com.bulletin_board;
 
-import com.bulletin_board.enums.*;
+import com.bulletin_board.config.ConfigApp;
+import com.bulletin_board.domain.*;
+import com.bulletin_board.enums.CategoryType;
+import com.bulletin_board.enums.City;
+import com.bulletin_board.enums.Country;
+import com.bulletin_board.enums.CountryCode;
+import com.bulletin_board.service.AdvertService;
 import com.bulletin_board.service.CRUDService;
 import com.bulletin_board.service.impl.AdvertServiceImpl;
 import com.bulletin_board.service.impl.AuthorServiceImpl;
 import com.bulletin_board.service.impl.CategoryServiceImpl;
 import com.bulletin_board.service.impl.MatchingAdServiceImpl;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 
 public class test {
-    private static final CRUDService<Category> CATEGORY_SERVICE = new CategoryServiceImpl();
-    private static final CRUDService<Author> AUTHOR_SERVICE = new AuthorServiceImpl();
-    private static final CRUDService<MatchingAd> MATCHING_AD_SERVICE = new MatchingAdServiceImpl();
-    private static final AdvertServiceImpl ADVERT_SERVICE = new AdvertServiceImpl();
+
+
+    private static final AnnotationConfigApplicationContext CONTEXT =
+            new AnnotationConfigApplicationContext(ConfigApp.class);
+    private static final CRUDService<Category> CATEGORY_SERVICE =
+            CONTEXT.getBean(CategoryServiceImpl.class);
+    private static final CRUDService<Author> AUTHOR_SERVICE =
+            CONTEXT.getBean(AuthorServiceImpl.class);
+    private static final CRUDService<MatchingAd> MATCHING_AD_SERVICE =
+            CONTEXT.getBean(MatchingAdServiceImpl.class);
+    private static final AdvertService ADVERT_SERVICE =
+            CONTEXT.getBean(AdvertServiceImpl.class);
 
     public static void main(String[] args) {
-
-
- //         generateAuthors();
+//          generateAuthors();
 //          generateCategories();
 //          generateMatchingAd();
 //          generateAdverts();
@@ -140,7 +153,7 @@ public class test {
         ADVERT_SERVICE.save(hpEliteBook);
         ADVERT_SERVICE.save(lenovoG60);
         ADVERT_SERVICE.save(asusBP9);
-        ADVERT_SERVICE.save (hpPavilion);
+        ADVERT_SERVICE.save(hpPavilion);
         ADVERT_SERVICE.save(iphoneXS);
 
 

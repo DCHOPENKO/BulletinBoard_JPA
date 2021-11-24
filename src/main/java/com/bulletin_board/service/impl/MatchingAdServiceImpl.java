@@ -2,9 +2,7 @@ package com.bulletin_board.service.impl;
 
 import com.bulletin_board.domain.MatchingAd;
 import com.bulletin_board.dao.MatchingAdDAO;
-import com.bulletin_board.dao.impl.MatchingAdDAOImpl;
 import com.bulletin_board.service.CRUDService;
-import com.bulletin_board.util.ValidatorUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,9 +16,7 @@ public class MatchingAdServiceImpl implements CRUDService<MatchingAd> {
     MatchingAdDAO dao;
 
     public void save(MatchingAd matchingAd) {
-        if (ValidatorUtil.validate(matchingAd)) {
-            dao.save(matchingAd);
-        }
+        dao.save(matchingAd);
     }
 
     public void deleteById(int id) {
@@ -32,9 +28,8 @@ public class MatchingAdServiceImpl implements CRUDService<MatchingAd> {
     }
 
     public void update(MatchingAd matchingAd) {
-        if (ValidatorUtil.validate(matchingAd)) {
             dao.update(matchingAd);
-        }
+
     }
 }
 

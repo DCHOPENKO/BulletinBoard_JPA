@@ -1,5 +1,7 @@
 package com.bulletin_board.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.validator.constraints.Length;
@@ -17,6 +19,7 @@ import java.util.List;
 @Builder
 @Setter
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
     @Version
@@ -37,28 +40,24 @@ public class Author {
     @Length(min = 3, max = 16)
     String lastName;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY,
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER,
             orphanRemoval = true)
     @JoinColumn(name = "FK_Author_Address")
     @NotNull
     @Valid
     Address address;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY,
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER,
             orphanRemoval = true)
     @JoinColumn(name = "FK_Author_Email")
     @NotNull
     @Valid
     EmailAddress email;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY,
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER,
             orphanRemoval = true)
-    @JoinColumn(name = "FK_Author_Phone_number")
+    @JoinColumn(name = "FK_Author_Phone")
     @NotNull
-    List<@NotNull @Valid PhoneNumber> phoneNumbers;
-
-    @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY,
-            mappedBy = "author", orphanRemoval = true)
-    List<@NotNull @Valid MatchingAd> matchingAds;
+    List<@NotNull @Valid Phone> phones;
 
 }

@@ -4,11 +4,9 @@ import com.bulletin_board.domain.Advert;
 import com.bulletin_board.dao.AdvertDAO;
 import com.bulletin_board.service.AdvertService;
 import com.bulletin_board.service.EmailService;
-import com.bulletin_board.util.ValidatorUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,10 +21,8 @@ public class AdvertServiceImpl implements AdvertService {
     AdvertDAO dao;
 
     public void save(Advert advert) {
-        if (ValidatorUtil.validate(advert)) {
-            dao.save(advert);
-            eService.sendEmails(advert);
-        }
+        dao.save(advert);
+        eService.sendEmails(advert);
     }
 
     public void deleteById(int id) {
@@ -38,9 +34,7 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     public void update(Advert advert) {
-        if (ValidatorUtil.validate(advert)) {
-            dao.update(advert);
-        }
+        dao.update(advert);
     }
 
     public void deleteAdvertsByAuthorId(int id) {

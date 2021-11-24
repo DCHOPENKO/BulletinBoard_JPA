@@ -27,7 +27,7 @@ public class EmailDAOImpl implements EmailDAO {
     @Override
     public List<String> getEmailsByMatchingAdRequests(Advert advert) {
         TypedQuery<String> query = em.createQuery(QUERY_CHECK_MATCHING_AD_BY_ADVERT, String.class);
-        query.setParameter(PARAMETER_CATEGORY, advert.getCategory());
+        query.setParameter(PARAMETER_CATEGORY, advert.getCategory().getId());
         query.setParameter(PARAMETER_ADVERT_TITLE, advert.getTitle());
         query.setParameter(PARAMETER_ADVERT_PRICE, advert.getPrice());
         return query.getResultList();

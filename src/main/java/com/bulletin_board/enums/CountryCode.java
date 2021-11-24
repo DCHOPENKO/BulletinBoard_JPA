@@ -1,6 +1,9 @@
 package com.bulletin_board.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum CountryCode {
+
     RU ("+7"),
     UA ("+38"),
     BY ("+37");

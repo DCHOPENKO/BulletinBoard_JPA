@@ -1,6 +1,7 @@
 package com.bulletin_board;
 
 import com.bulletin_board.config.ConfigApp;
+import com.bulletin_board.dao.impl.MatchingAdDAOImpl;
 import com.bulletin_board.domain.*;
 import com.bulletin_board.enums.CategoryType;
 import com.bulletin_board.enums.City;
@@ -20,17 +21,17 @@ import java.util.Arrays;
 
 public class test {
 
-
+/*
     private static final AnnotationConfigApplicationContext CONTEXT =
             new AnnotationConfigApplicationContext(ConfigApp.class);
     private static final CRUDService<Category> CATEGORY_SERVICE =
             CONTEXT.getBean(CategoryServiceImpl.class);
     private static final CRUDService<Author> AUTHOR_SERVICE =
-            CONTEXT.getBean(AuthorServiceImpl.class);
+            CONTEXT.getBean(AuthorServiceImpl.class);*/
     private static final CRUDService<MatchingAd> MATCHING_AD_SERVICE =
-            CONTEXT.getBean(MatchingAdServiceImpl.class);
-    private static final AdvertService ADVERT_SERVICE =
-            CONTEXT.getBean(AdvertServiceImpl.class);
+            new MatchingAdServiceImpl(new MatchingAdDAOImpl());
+/*    private static final AdvertService ADVERT_SERVICE =
+            CONTEXT.getBean(AdvertServiceImpl.class);*/
 
     public static void main(String[] args) {
 //          generateAuthors();
@@ -42,9 +43,11 @@ public class test {
 //
 //       CATEGORY_SERVICE.deleteById(14);
 
+        System.out.println(MATCHING_AD_SERVICE.getById(21));
+
     }
 
-    public static void generateCategories() {
+ /*   public static void generateCategories() {
 
         Category computers = Category.builder()
                 .categoryType(CategoryType.COMPUTERS)
@@ -58,45 +61,6 @@ public class test {
         CATEGORY_SERVICE.save(phones);
 
 
-    }
-
-    public static void generateMatchingAd() {
-        MatchingAd match01 = MatchingAd.builder()
-                .author(AUTHOR_SERVICE.getById(1))
-                .category(CATEGORY_SERVICE.getById(14))
-                .keyWords("new")
-                .priceFrom(BigDecimal.valueOf(5000))
-                .priceTo(BigDecimal.valueOf(6000))
-                .build();
-
-        MatchingAd match02 = MatchingAd.builder()
-                .author(AUTHOR_SERVICE.getById(6))
-                .category(CATEGORY_SERVICE.getById(15))
-                .keyWords("as")
-                .priceFrom(BigDecimal.valueOf(500))
-                .priceTo(BigDecimal.valueOf(2000))
-                .build();
-
-        MatchingAd match03 = MatchingAd.builder()
-                .author(AUTHOR_SERVICE.getById(10))
-                .category(CATEGORY_SERVICE.getById(15))
-                .keyWords("new")
-                .priceFrom(BigDecimal.valueOf(1000))
-                .priceTo(BigDecimal.valueOf(6000))
-                .build();
-
-        MatchingAd match04 = MatchingAd.builder()
-                .author(AUTHOR_SERVICE.getById(10))
-                .category(CATEGORY_SERVICE.getById(15))
-                .keyWords("as")
-                .priceFrom(BigDecimal.valueOf(500))
-                .priceTo(BigDecimal.valueOf(2000))
-                .build();
-
-        MATCHING_AD_SERVICE.save(match01);
-        MATCHING_AD_SERVICE.save(match02);
-        MATCHING_AD_SERVICE.save(match03);
-        MATCHING_AD_SERVICE.save(match04);
     }
 
     public static void generateAdverts() {
@@ -161,22 +125,22 @@ public class test {
 
     public static void generateAuthors() {
 
-        PhoneNumber author1phoneRU = PhoneNumber.builder()
+        Phone author1phoneRU = Phone.builder()
                 .countryCode(CountryCode.RU)
                 .phoneNumber("9253771089")
                 .build();
 
-        PhoneNumber author1phoneUA = PhoneNumber.builder()
+        Phone author1phoneUA = Phone.builder()
                 .countryCode(CountryCode.UA)
                 .phoneNumber("0632920452")
                 .build();
 
-        PhoneNumber author2phoneUA = PhoneNumber.builder()
+        Phone author2phoneUA = Phone.builder()
                 .countryCode(CountryCode.RU)
                 .phoneNumber("9250081472")
                 .build();
 
-        PhoneNumber author3phoneBY = PhoneNumber.builder()
+        Phone author3phoneBY = Phone.builder()
                 .countryCode(CountryCode.BY)
                 .phoneNumber("9999999999")
                 .build();
@@ -223,7 +187,7 @@ public class test {
                 .lastName("Ivanov")
                 .address(author1address)
                 .email(author1email)
-                .phoneNumbers(Arrays.asList(author1phoneRU, author1phoneUA))
+                .phones(Arrays.asList(author1phoneRU, author1phoneUA))
                 .build();
 
         Author author02 = Author.builder()
@@ -231,7 +195,7 @@ public class test {
                 .lastName("Simonenko")
                 .address(author2address)
                 .email(author2email)
-                .phoneNumbers(Arrays.asList(author2phoneUA))
+                .phones(Arrays.asList(author2phoneUA))
                 .build();
 
         Author author03 = Author.builder()
@@ -239,7 +203,7 @@ public class test {
                 .lastName("Karaga")
                 .address(author3address)
                 .email(author3email)
-                .phoneNumbers(Arrays.asList(author3phoneBY))
+                .phones(Arrays.asList(author3phoneBY))
                 .build();
 
         AUTHOR_SERVICE.save(author01);
@@ -247,4 +211,43 @@ public class test {
         AUTHOR_SERVICE.save(author03);
 
     }
+
+    public static void generateMatchingAd() {
+        MatchingAd match01 = MatchingAd.builder()
+                .author(AUTHOR_SERVICE.getById(1))
+                .category(CATEGORY_SERVICE.getById(14))
+                .keyWords("new")
+                .priceFrom(BigDecimal.valueOf(5000))
+                .priceTo(BigDecimal.valueOf(6000))
+                .build();
+
+        MatchingAd match02 = MatchingAd.builder()
+                .author(AUTHOR_SERVICE.getById(6))
+                .category(CATEGORY_SERVICE.getById(15))
+                .keyWords("as")
+                .priceFrom(BigDecimal.valueOf(500))
+                .priceTo(BigDecimal.valueOf(2000))
+                .build();
+
+        MatchingAd match03 = MatchingAd.builder()
+                .author(AUTHOR_SERVICE.getById(10))
+                .category(CATEGORY_SERVICE.getById(15))
+                .keyWords("new")
+                .priceFrom(BigDecimal.valueOf(1000))
+                .priceTo(BigDecimal.valueOf(6000))
+                .build();
+
+        MatchingAd match04 = MatchingAd.builder()
+                .author(AUTHOR_SERVICE.getById(10))
+                .category(CATEGORY_SERVICE.getById(15))
+                .keyWords("as")
+                .priceFrom(BigDecimal.valueOf(500))
+                .priceTo(BigDecimal.valueOf(2000))
+                .build();
+
+        MATCHING_AD_SERVICE.save(match01);
+        MATCHING_AD_SERVICE.save(match02);
+        MATCHING_AD_SERVICE.save(match03);
+        MATCHING_AD_SERVICE.save(match04);
+    }*/
 }

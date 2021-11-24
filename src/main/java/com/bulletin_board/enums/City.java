@@ -1,6 +1,8 @@
 package com.bulletin_board.enums;
 
-public enum City {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public enum   City {
 
     MOSCOW,
     SAINT_PETERSBURG,

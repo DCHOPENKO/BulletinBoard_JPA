@@ -1,20 +1,16 @@
 package com.bulletin_board.dao.impl;
 
-import com.bulletin_board.domain.Author;
 import com.bulletin_board.dao.AdvertDAO;
 import com.bulletin_board.dao.CrudDAO;
 import com.bulletin_board.dao.MatchingAdDAO;
+import com.bulletin_board.domain.Author;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import static com.bulletin_board.util.ConstantsUtil.ENTITY_FACTORY;
 
 @Repository
 @Transactional

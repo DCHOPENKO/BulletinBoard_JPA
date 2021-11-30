@@ -16,10 +16,10 @@ import javax.validation.constraints.Email;
 @Builder
 @Getter
 @Setter
-public class EmailAddress {
+public class EmailAddress implements EntityClass{
 
     @Email
-    public String name;
+    String name;
     @Version
     int version;
     @Id

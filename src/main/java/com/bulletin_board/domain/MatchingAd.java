@@ -19,8 +19,7 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 @Setter
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class MatchingAd {
+public class MatchingAd implements EntityClass{
 
     @Version
     int version;
@@ -29,12 +28,15 @@ public class MatchingAd {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @NonNull
+    boolean isActive = true;
+
+    @ManyToOne
     @JoinColumn(name = "FK_MatchingAd_Author")
     @NotNull
     Author author;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "FK_MatchingAd_Category")
     @NotNull
     Category category;
@@ -52,4 +54,8 @@ public class MatchingAd {
     @NotNull
     @Positive
     BigDecimal priceTo;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
 }

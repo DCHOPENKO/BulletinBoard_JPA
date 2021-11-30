@@ -1,7 +1,9 @@
 package com.bulletin_board.controller;
 
 import com.bulletin_board.domain.Author;
+import com.bulletin_board.dto.AuthorDTO;
 import com.bulletin_board.service.CRUDService;
+import com.bulletin_board.service.impl.AuthorServiceImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,26 +17,27 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class AuthorController {
 
-    CRUDService<Author> service;
+//    CRUDService<Author, AuthorDTO> service;
+    AuthorServiceImpl service;
 
-    @PostMapping("/save")
+    @PostMapping()
     public void save(@RequestBody @Valid Author author) {
         service.save(author);
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public void update(@RequestBody @Valid Author author) {
         service.update(author);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable(name = "id") int id) {
         service.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
-    public Author find(@PathVariable(name = "id") int id) {
-        return service.getById(id);
+    @GetMapping("/{id}")
+    public AuthorDTO find(@PathVariable(name = "id") int id) {
+        return service.getDtoById(id);
     }
 
 }

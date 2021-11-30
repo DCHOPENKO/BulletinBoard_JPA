@@ -1,7 +1,7 @@
 package com.bulletin_board.controller;
 
-import com.bulletin_board.domain.Author;
 import com.bulletin_board.domain.MatchingAd;
+import com.bulletin_board.dto.MatchingAdDTO;
 import com.bulletin_board.service.CRUDService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,29 +16,28 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class MatchingAdController {
 
-    CRUDService<MatchingAd> service;
+    CRUDService<MatchingAd, MatchingAdDTO> service;
 
-    @PostMapping("/save")
+    @PostMapping()
     public void save(@RequestBody @Valid MatchingAd matchingAd) {
 
         service.save(matchingAd);
     }
 
-    @PutMapping("/update")
+    @PutMapping()
     public void update(@RequestBody @Valid MatchingAd matchingAd) {
         service.update(matchingAd);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable(name = "id") int id) {
         service.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public MatchingAd find(@PathVariable(name = "id") int id) {
-        MatchingAd matchingAd = service.getById(id);
-        return matchingAd;
+    public MatchingAdDTO find(@PathVariable(name = "id") int id) {
+        return service.getDtoById(id);
     }
 
 }

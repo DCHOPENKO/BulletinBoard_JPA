@@ -1,15 +1,12 @@
 package com.bulletin_board.service.impl;
 
 import com.bulletin_board.domain.Advert;
+import com.bulletin_board.repository.EmailAddressRepository;
 import com.bulletin_board.service.EmailService;
-import com.bulletin_board.dao.EmailDAO;
-import com.bulletin_board.dao.impl.EmailDAOImpl;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    EmailDAO dao;
-    JavaMailSenderImpl jvc;
+    EmailAddressRepository repo;
+    JavaMailSenderImpl jms;
 
     @Override
     public void sendEmails(Advert advert) {
 
         List<String> emails = getEmailsByMatchingAdRequests(advert);
+        if (emails.isEmpty()) {
+            return;
+        }
         String[] ems = new String[emails.size()];
         String[] strings = emails.toArray(ems);
 
@@ -41,11 +41,11 @@ public class EmailServiceImpl implements EmailService {
                 "\n price : " + advert.getPrice() +
                 "\n \n \n have a nice day");
 
-        jvc.send(message);
+        jms.send(message);
     }
 
     private List<String> getEmailsByMatchingAdRequests(Advert advert) {
-        return dao.getEmailsByMatchingAdRequests(advert);
+        return repo.getEmailsByMatchingAdRequests(advert.getCategory().getId(), advert.getTitle(), advert.getPrice());
     }
 
 }

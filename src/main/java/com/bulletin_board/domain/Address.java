@@ -21,7 +21,7 @@ import javax.validation.constraints.Positive;
 @Builder
 @Getter
 @Setter
-public class Address {
+public class Address implements EntityClass{
 
     @Version
     int version;

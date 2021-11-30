@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 @Getter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Author {
+public class Author implements EntityClass{
 
     @Version
     int version;
@@ -40,14 +40,14 @@ public class Author {
     @Length(min = 3, max = 16)
     String lastName;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER,
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
             orphanRemoval = true)
     @JoinColumn(name = "FK_Author_Address")
     @NotNull
     @Valid
     Address address;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER,
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
             orphanRemoval = true)
     @JoinColumn(name = "FK_Author_Email")
     @NotNull
@@ -58,6 +58,6 @@ public class Author {
             orphanRemoval = true)
     @JoinColumn(name = "FK_Author_Phone")
     @NotNull
-    List<@NotNull @Valid Phone> phones;
+    Set<@NotNull @Valid Phone> phones;
 
 }

@@ -1,16 +1,19 @@
 package com.bulletin_board.service.impl;
 
 import com.bulletin_board.domain.Advert;
-import com.bulletin_board.dao.AdvertDAO;
+import com.bulletin_board.dto.AdvertDTO;
+import com.bulletin_board.repository.AdvertRepository;
 import com.bulletin_board.service.AdvertService;
 import com.bulletin_board.service.EmailService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -18,48 +21,67 @@ import java.util.List;
 public class AdvertServiceImpl implements AdvertService {
 
     EmailService eService;
-    AdvertDAO dao;
+    AdvertRepository repo;
 
     public void save(Advert advert) {
-        dao.save(advert);
+        repo.save(advert);
         eService.sendEmails(advert);
     }
 
     public void deleteById(int id) {
-        dao.deleteItemById(id, Advert.class);
+        repo.deleteById(id);
     }
 
-    public Advert getById(int id) {
-        return dao.getById(id, Advert.class);
+    public AdvertDTO getDtoById(int id) {
+        return new AdvertDTO(repo.findById(id).get());
     }
 
     public void update(Advert advert) {
-        dao.update(advert);
+        repo.save(advert);
     }
 
     public void deleteAdvertsByAuthorId(int id) {
-        dao.deleteAllItemsByAuthorId(id);
+        repo.deleteAllByAuthor_Id(id);
     }
 
     public void deleteAdvertsByCategoryId(int id) {
-        dao.deleteAllItemsByCategoryId(id);
+        repo.deleteAllByCategory_Id(id);
     }
 
-    public List<Advert> findAdvertsByAuthorId(int id) {
-        return dao.findAllAdvertsByAuthorId(id);
+    public List<AdvertDTO> findAdvertsByAuthorId(int id) {
+        List<Advert> adverts = repo.findAllByAuthor_Id(id);
+        return mapEntityToDto(adverts);
     }
 
-    public List<Advert> findAdvertsByCategoriesID(List<Integer> categoryIds) {
-        return dao.findAllAdvertsByCategoriesID(categoryIds);
+
+    public List<AdvertDTO> findAdvertsByCategoriesID(List<Integer> categoryIds) {
+        List<Advert> adverts = repo.findAllByCategoriesId(categoryIds);
+        return mapEntityToDto(adverts);
     }
 
-    public List<Advert> findAdvertsByDate(LocalDate date) {
-        return dao.findAllAdvertsByDate(date);
+    public List<AdvertDTO> findAdvertsByDate(LocalDate date) {
+        List<Advert> adverts = repo.findAllByPublicationDate(date);
+        return mapEntityToDto(adverts);
     }
 
-    public List<Advert> findAdvertsByKeyWord(String keyWord) {
-        return dao.findAllAdvertsByKeyWord(keyWord);
+    public List<AdvertDTO> findAdvertsByKeyWord(String keyWord) {
+        List<Advert> adverts = repo.findAllByTitleContaining(keyWord);
+        return mapEntityToDto(adverts);
     }
 
+    private List<AdvertDTO> mapEntityToDto(List<Advert> adverts) {
+        return adverts.stream()
+                .map(AdvertDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteNotActive () {
+        repo.deleteAllByIsActiveIsFalse();
+    }
+
+    @Scheduled (cron = "0/20 * * * * *")
+    public void deleteIfNotActive () {
+        repo.deleteAllByIsActiveIsFalse();
+    }
 
 }

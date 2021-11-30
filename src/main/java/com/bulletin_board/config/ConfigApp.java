@@ -1,12 +1,16 @@
 package com.bulletin_board.config;
 
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -16,13 +20,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.bulletin_board.service", "com.bulletin_board.dao",
-        "com.bulletin_board.controller"})
+@ComponentScan(basePackages = {"com.bulletin_board.service", "com.bulletin_board.controller"})
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.bulletin_board.repository")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Import(MailConfig.class)
-public class ConfigApp implements WebMvcConfigurer {
+@EnableScheduling
+@PropertySource("classpath:db.properties")
+public class ConfigApp implements WebMvcConfigurer, EnvironmentAware {
+
+    private Environment environment;
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory factory) {
@@ -37,9 +45,11 @@ public class ConfigApp implements WebMvcConfigurer {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(JpaVendorAdapter adapter, DataSource source) {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
 
+        String packageName = environment.getProperty("db.package_name");
+
         lcemfb.setDataSource(source);
         lcemfb.setJpaVendorAdapter(adapter);
-        lcemfb.setPackagesToScan("com.bulletin_board.domain");
+        lcemfb.setPackagesToScan(packageName);
         return lcemfb;
     }
 
@@ -47,21 +57,31 @@ public class ConfigApp implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/bulletin_board?serverTimezone=Europe/Kiev");
-        dataSource.setUsername("root");
-        dataSource.setPassword("628325");
+        String driverClassName = environment.getProperty("db.driver");
+        String url = environment.getProperty("db.url");
+        String username = environment.getProperty("db.username");
+        String password = environment.getProperty("db.password");
+
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        String databasePlatform = environment.getProperty("db.platform");
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
-        adapter.setDatabasePlatform("org.hibernate.dialect.MySQL8Dialect");
+        adapter.setDatabasePlatform(databasePlatform);
         adapter.setGenerateDdl(true);
-
         return adapter;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 }

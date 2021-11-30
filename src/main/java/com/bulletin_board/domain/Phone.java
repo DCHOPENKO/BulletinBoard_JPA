@@ -19,7 +19,8 @@ import javax.validation.constraints.Pattern;
 @Builder
 @Getter
 @Setter
-public class Phone {
+@EqualsAndHashCode(exclude = {"version", "id"})
+public class Phone implements EntityClass{
 
     @Version
     int version;

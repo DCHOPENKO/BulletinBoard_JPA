@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @Builder
 @Setter
 @Getter
-public class Advert {
+public class Advert implements EntityClass{
 
     @Version
     int version;
@@ -29,6 +29,9 @@ public class Advert {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "advert_id")
     int id;
+
+    @NonNull
+    private boolean isActive = true;
 
     @NotBlank
     String name;
@@ -47,14 +50,18 @@ public class Advert {
     @Positive
     BigDecimal price;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "FK_Advert_Author")
     @NotNull
     Author author;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "FK_Advert_Category")
     @NotNull
     Category category;
+
+    public boolean getIsActive() {
+        return isActive;
+    }
 
 }

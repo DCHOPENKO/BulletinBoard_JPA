@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Setter
 @Getter
-public class Category {
+public class Category implements EntityClass{
 
     @Version
     int version;

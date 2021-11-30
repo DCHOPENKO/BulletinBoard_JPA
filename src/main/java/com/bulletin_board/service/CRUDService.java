@@ -1,6 +1,9 @@
 package com.bulletin_board.service;
 
-public interface CRUDService<T> {
+import com.bulletin_board.domain.EntityClass;
+import com.bulletin_board.dto.DtoClass;
+
+public interface CRUDService<T extends EntityClass, DTO extends DtoClass> {
 
     void save(T t);
 
@@ -8,6 +11,6 @@ public interface CRUDService<T> {
 
     void deleteById(int id);
 
-    T getById(int id);
+    DTO getDtoById(int id);
 
 }
